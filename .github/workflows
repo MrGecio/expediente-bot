@@ -3,7 +3,7 @@ name: Ejecutar script diariamente
 # Se ejecuta a diario a las 9 AM hora CDMX (UTC-6)
 on:
   schedule:
-    - cron: "0 15 * * *"  # UTC: 15 = 9 AM CDMX
+    - cron: "0 15 * * *"  # UTC: 15 = 3:15 PM CDMX
 
 jobs:
   run-python:
