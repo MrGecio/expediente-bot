@@ -25,4 +25,4 @@ jobs:
 
       # 4. Ejecutar el script
       - name: Ejecutar script
-        run: python script.py
+        run: python expedientes.py
