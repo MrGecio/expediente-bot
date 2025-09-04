@@ -1,40 +1,39 @@
 name: Ejecutar script diariamente
 
+# Se ejecuta a diario a las 9 AM hora CDMX (UTC-6)
 on:
   schedule:
-    - cron: "0 15 * * *"  # UTC: 9 AM CDMX
+    - cron: "0 15 * * *"  # UTC: 15 = 9 AM CDMX
 
 jobs:
   run-python:
     runs-on: ubuntu-latest
+
     steps:
-      # 1️⃣ Clonar el repositorio
+      # Paso 1: Clonar el repositorio
       - uses: actions/checkout@v3
 
-      # 2️⃣ Configurar Python
+      # Paso 2: Configurar Python
       - name: Configurar Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      # 3️⃣ Instalar dependencias
+      # Paso 3: Instalar dependencias
       - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 4️⃣ Configurar credenciales de Google
+      # Paso 4: Configurar credenciales de Google
       - name: Configurar credenciales
-        run: |
-          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > credentials.json
+        run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > credentials.json
 
-      # 5️⃣ Configurar secretos del correo
-      - name: Configurar variables de correo
-        run: |
-          echo "GMAIL_USER=${{ secrets.GMAIL_USER }}" >> $GITHUB_ENV
-          echo "GMAIL_APP_PASSWORD=${{ secrets.GMAIL_APP_PASSWORD }}" >> $GITHUB_ENV
-          echo "TO_EMAIL=${{ secrets.TO_EMAIL }}" >> $GITHUB_ENV
-
-      # 6️⃣ Ejecutar script
+      # Paso 5: Ejecutar el script
       - name: Ejecutar script
-        run: python expediente.py
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+        run: python script.py
