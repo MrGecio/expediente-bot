@@ -1,0 +1,28 @@
+name: Ejecutar script diariamente
+
+on:
+  schedule:
+    - cron: "0 15 * * *"  # UTC: se ejecuta todos los días a 9 AM CDMX
+
+jobs:
+  run-python:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Clonar el repositorio
+      - uses: actions/checkout@v3
+      
+      # 2. Configurar Python
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      # 3. Instalar dependencias
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Ejecutar el script
+      - name: Ejecutar script
+        run: python script.py
