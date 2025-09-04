@@ -1,25 +1,25 @@
 import smtplib
 import imaplib
 import email
+import os
 from email.mime.text import MIMEText
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-# --- Configuración del correo ---
-GMAIL_USER = "turecordador@gmail.com"          # tu correo
-GMAIL_APP_PASSWORD = "xios mzvv mxkk fqig"     # contraseña de app de Gmail
-TO_EMAIL = "geciobri@gmail.com"                # destinatario
+# --- Configuración del correo desde variables de entorno ---
+GMAIL_USER = os.environ["GMAIL_USER"]
+GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
+TO_EMAIL = os.environ["TO_EMAIL"]
 
 # --- Configuración Google Sheets ---
-SERVICE_ACCOUNT_FILE = "botprueba-469302-c1467da0cce3.json"
-SPREADSHEET_ID = "13zp6KUQIKVU2JCckWV8vo3kvFg1v6HFJUumbdwWKUBg"
+SERVICE_ACCOUNT_FILE = "credentials.json"  # será creado desde el secret en GitHub Actions
+SPREADSHEET_ID = os.environ["SPREADSHEET_ID"]
 RANGE_NAME = "'Hoja 1'!A2:F100"
 
 credentials = service_account.Credentials.from_service_account_file(
     SERVICE_ACCOUNT_FILE, scopes=["https://www.googleapis.com/auth/spreadsheets"]
 )
 service = build("sheets", "v4", credentials=credentials)
-
 
 # --- Enviar correos ---
 def enviar_correos():
@@ -61,7 +61,6 @@ BORRAR {num}
 
     server.quit()
 
-
 # --- Revisar respuestas ---
 def leer_respuestas():
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
@@ -88,7 +87,6 @@ def leer_respuestas():
 
     mail.logout()
 
-
 # --- Procesar comandos de respuesta ---
 def procesar_comando(body):
     if body.upper().startswith("BORRAR"):
@@ -113,7 +111,6 @@ def procesar_comando(body):
 
         except Exception as e:
             print("❌ Error procesando comando:", e)
-
 
 if __name__ == "__main__":
     print("📤 Enviando expedientes...")
