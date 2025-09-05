@@ -30,10 +30,11 @@ jobs:
         run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > credentials.json
 
       # Paso 5: Ejecutar el script
-      - name: Ejecutar script
-        env:
-          GMAIL_USER: ${{ secrets.GMAIL_USER }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          TO_EMAIL: ${{ secrets.TO_EMAIL }}
-          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-        run: python expediente.py
+- name: Ejecutar script
+  env:
+    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+    GMAIL_USER: ${{ secrets.GMAIL_USER }}
+    GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+    TO_EMAIL: ${{ secrets.TO_EMAIL }}
+    SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+  run: python expediente.py
