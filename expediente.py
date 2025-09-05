@@ -26,6 +26,8 @@ credentials = service_account.Credentials.from_service_account_info(
 )
 #Prueba hasta aqui
 
+service = build("sheets", "v4", credentials=credentials)
+
 
 
 # --- Enviar correos ---
