@@ -2,23 +2,23 @@ import smtplib
 import imaplib
 import email
 import os
-from email.mime.text import MIMEText
+import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-# --- Configuración del correo desde variables de entorno ---
-GMAIL_USER = os.environ["GMAIL_USER"]
-GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
-TO_EMAIL = os.environ["TO_EMAIL"]
+# Obtener el contenido del secret de GitHub
+google_creds = os.environ["GOOGLE_CREDENTIALS"]
 
-# --- Configuración Google Sheets ---
-SERVICE_ACCOUNT_FILE = "credentials.json"  # será creado desde el secret en GitHub Actions
-SPREADSHEET_ID = os.environ["SPREADSHEET_ID"]
-RANGE_NAME = "'Hoja 1'!A2:F100"
+# Convertir JSON string a dict
+service_account_info = json.loads(google_creds)
 
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=["https://www.googleapis.com/auth/spreadsheets"]
+# Crear credenciales
+credentials = service_account.Credentials.from_service_account_info(
+    service_account_info,
+    scopes=["https://www.googleapis.com/auth/spreadsheets"]
 )
+
+# Conectar con Sheets
 service = build("sheets", "v4", credentials=credentials)
 
 # --- Enviar correos ---
