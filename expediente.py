@@ -11,6 +11,7 @@ from googleapiclient.discovery import build
 GMAIL_USER = os.environ["GMAIL_USER"]
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
 TO_EMAIL = os.environ["TO_EMAIL"]
+SERVICE_ACCOUNT_FILE = os.environ["SERVICE_ACCOUNT_FILE"]
 
 SPREADSHEET_ID = os.environ["SPREADSHEET_ID"]
 RANGE_NAME = "'Hoja 1'!A2:F100"
@@ -18,7 +19,7 @@ RANGE_NAME = "'Hoja 1'!A2:F100"
 #Hasta aqui esta bien
 
 credentials = service_account.Credentials.from_service_account_file(
-    os.environ["SERVICE_ACCOUNT_FILE"], scopes=["https://www.googleapis.com/auth/spreadsheets"]
+    SERVICE_ACCOUNT_FILE, scopes=["https://www.googleapis.com/auth/spreadsheets"]
 )
 service = build("sheets", "v4", credentials=credentials)
 
