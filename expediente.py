@@ -18,11 +18,12 @@ RANGE_NAME = "'Hoja 1'!A2:F100"
 
 #Hasta aqui esta bien
 
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=["https://www.googleapis.com/auth/spreadsheets"]
+google_creds = os.environ["GOOGLE_CREDENTIALS"]
+service_account_info = json.loads(google_creds)
+credentials = service_account.Credentials.from_service_account_info(
+    service_account_info,
+    scopes=["https://www.googleapis.com/auth/spreadsheets"]
 )
-service = build("sheets", "v4", credentials=credentials)
-
 #Prueba hasta aqui
 
 
