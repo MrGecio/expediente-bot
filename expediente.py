@@ -19,8 +19,8 @@ RANGE_NAME = os.environ.get("RANGE_NAME", "'Hoja 1'!A2:F100")
 google_creds = os.environ["GOOGLE_CREDENTIALS"]
 service_account_info = json.loads(google_creds)
 
-credentials = service_account.Credentials.from_service_account_info(
-    service_account_info,
+credentials = service_account.Credentials.from_service_account_file(
+    "credentials.json",
     scopes=["https://www.googleapis.com/auth/spreadsheets"]
 )
 
