@@ -20,7 +20,6 @@ credentials = service_account.Credentials.from_service_account_info(
 
 # Conectar con Sheets
 service = build("sheets", "v4", credentials=credentials)
-
 # --- Enviar correos ---
 def enviar_correos():
     sheet = service.spreadsheets()
