@@ -26,9 +26,6 @@ service = build("sheets", "v4", credentials=credentials)
 
 
 
-
-service = build("sheets", "v4", credentials=credentials)
-
 # --- Enviar correos ---
 def enviar_correos():
     sheet = service.spreadsheets()
