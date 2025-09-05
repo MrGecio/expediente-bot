@@ -11,7 +11,7 @@ from googleapiclient.discovery import build
 GMAIL_USER = os.environ["GMAIL_USER"]
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
 TO_EMAIL = os.environ["TO_EMAIL"]
-SERVICE_ACCOUNT_FILE = os.environ["SERVICE_ACCOUNT_FILE"]
+SERVICE_ACCOUNT_FILE = "botprueba-469302-c1467da0cce3.json"
 
 SPREADSHEET_ID = os.environ["SPREADSHEET_ID"]
 RANGE_NAME = "'Hoja 1'!A2:F100"
