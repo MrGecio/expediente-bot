@@ -3,22 +3,27 @@ import imaplib
 import email
 import os
 import json
+from email.mime.text import MIMEText
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-# Obtener el contenido del secret de GitHub
-google_creds = os.environ["GOOGLE_CREDENTIALS"]
+# --- Configuración de entorno / secrets ---
+GMAIL_USER = os.environ["GMAIL_USER"]
+GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
+TO_EMAIL = os.environ["TO_EMAIL"]
 
-# Convertir JSON string a dict
+SPREADSHEET_ID = os.environ["SPREADSHEET_ID"]
+RANGE_NAME = os.environ.get("RANGE_NAME", "'Hoja 1'!A2:F100")
+
+# --- Credenciales Google Sheets ---
+google_creds = os.environ["GOOGLE_CREDENTIALS"]
 service_account_info = json.loads(google_creds)
 
-# Crear credenciales
 credentials = service_account.Credentials.from_service_account_info(
     service_account_info,
     scopes=["https://www.googleapis.com/auth/spreadsheets"]
 )
 
-# Conectar con Sheets
 service = build("sheets", "v4", credentials=credentials)
 
 # --- Enviar correos ---
@@ -94,12 +99,11 @@ def procesar_comando(body):
             _, num_exp = body.split()
             num_exp = num_exp.strip()
 
-            # Leer datos de Sheets
             sheet = service.spreadsheets()
             result = sheet.values().get(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME).execute()
             values = result.get("values", [])
 
-            for i, row in enumerate(values, start=2):  # empieza en fila 2
+            for i, row in enumerate(values, start=2):
                 if row and row[0] == num_exp:
                     service.spreadsheets().values().clear(
                         spreadsheetId=SPREADSHEET_ID,
