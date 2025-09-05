@@ -21,6 +21,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          
+      - name: Configurar credenciales
+        run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > credentials.json
+
 
       - name: Ejecutar script
         env:
